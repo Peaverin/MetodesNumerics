@@ -31,13 +31,13 @@ int elimGauss(double**A, double *b){
         max = A[k][k];
         v = k;
         for(i=k+1;i<n;i++){
-            if(A[i][k] > max){
+            if(fabs(A[i][k]) > fabs(max)){
                 max = A[i][k];
                 v = i; 
             }
         }
         /*Si el màxim es menor a la tolerància, ja hem acabat:*/
-        if(max < tolerancia) return 1;
+        if(fabs(max) < tolerancia) return 1;
         /*Intercanviem les files k i v (a partir de la columna k, ja que les altres seran 0. */
         /*Guardem fila k a vauxiliar: */
         for(i=k;i<n;i++){
