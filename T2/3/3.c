@@ -7,6 +7,8 @@
 #include<stdio.h>    
 #include<stdlib.h>  
 #include <time.h>  
+#include <math.h>
+
 int n;
 double tolerancia;
 void printmatrix(double** A){
@@ -25,7 +27,7 @@ int elimGauss(double**A){
     int k,i,j;
     /*Cal fer n-1 etapes: */
     for(k=0;k<n-1;k++){
-        if(A[k][k] < tolerancia) return 1;
+        if(fabs(A[k][k]) < tolerancia) return 1;
         /*Calculem per a cada fila i€{k+1,.....,n} mik  i fem la resta:*/
         for(i=k+1;i<n;i++){
             /*Calculem mik*/
@@ -42,7 +44,7 @@ int main(void)
 {
    double **A;
    int i, j;
-   tolerancia = 1.e-14;
+   tolerancia = 1.e-12;
    /*Llegim A*/
    printf("Escriu l'enter n:");
    scanf("%d", &n);
