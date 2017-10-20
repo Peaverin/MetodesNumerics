@@ -83,32 +83,38 @@ int resoltriangular(double **A, double *b){
         /*Restem b[i] (és a dir, actualment és ci) - sumatori*/
         b[i] = b[i] - sumatori;
         /*Si Aii es major a la tolerancia, dividim per Aii:*/
-        if(fabs(A[i][i]) > tolerancia) return 2;
+        if(fabs(A[i][i]) < tolerancia) return 2;
         b[i] = b[i]/A[i][i];
     }
     return 0;
 }
 int main(void)
 {
-   double **A, *b;
+    /*AA i bb són còpies de A i b que guardarem per fer la comprovacio b-Ax després (no és part de l'enunciat)*/
+   double **A, **AA, *b, *bb, bb2;
    int i, j, index;
    tolerancia = 1.e-12;
    /*Llegim A*/
    printf("Escriu l'enter n:");
    scanf("%d", &n);
    A = (double **)malloc(n*sizeof(double*));
+   AA = (double **)malloc(n*sizeof(double*));
    for(i=0;i<n;i++){
        A[i] = (double *)malloc(n*sizeof(double));
+       AA[i] = (double *)malloc(n*sizeof(double));
        for(j=0;j<n;j++){
         printf("Escriu A%d%d:",i,j);
         scanf("%le", &A[i][j]);
+        AA[i][j] = A[i][j];
         }
    }
    /*Llegim b*/
    b = (double *)malloc(n*sizeof(double));
+   bb = (double *)malloc(n*sizeof(double));
    for(i=0;i<n;i++){
     printf("Escriu b%d:",i);
     scanf("%le", &b[i]);
+    bb[i] = b[i];
     }
     /*Fem eliminació Gaussiana. A esdevindrà A(k) i b esdevindrà c */
     index = elimGauss(A,b);
@@ -129,5 +135,18 @@ int main(void)
     for(i=0;i<n;i++){
         printf("x%d = %+.7e\n", i+1, b[i]);
     }
+    
+    /*Comprovació b-Ax=0?*/
+    for(i=0; i<n;i++){
+        for(j=0;j<n;j++) bb[i] -= AA[i][j]*b[j];
+    }
+    printf("b-Ax = c, c=0?\n");
+    for(i=0;i<n;i++){
+        printf("c%d = %+.7e\n",i, bb[i]);
+    }  
+    bb2 = 0.;
+    for(i=0;i<n;i++) bb2 += bb[i]*bb[i];
+    bb2 = sqrt(bb2);
+    printf("||b-Ax||2 = %+.7e\n", bb2);
     return 0;
 }
