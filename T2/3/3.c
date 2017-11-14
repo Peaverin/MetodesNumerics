@@ -43,7 +43,7 @@ int elimGauss(double**A){
 int main(void)
 {
    double **A;
-   int i, j;
+   int i, j, index;
    tolerancia = 1.e-12;
    /*Llegim A*/
    printf("Escriu l'enter n:");
@@ -56,10 +56,12 @@ int main(void)
         scanf("%le", &A[i][j]);
         }
    }
+   index = elimGauss(A);
     /*Fem eliminació Gaussiana. A esdevindrà A(k) i b esdevindrà c */
-    if(elimGauss(A) != 0){
+    if(index != 0){
         printf("No s'ha pogut realitzar eliminacio gaussiana sense pivotatge.\n");
-    }else{
+        return index;
+    }
     printf("Matriu triangulada amb m a sota la diagonal inferior:\n");
     printmatrix(A);
     printf("A=LU\nL=\n");
@@ -79,7 +81,6 @@ int main(void)
             if(j>i) printf("%+1.3e   ", A[i][j]);
         }
         printf("\n");
-    }
     }
     return 0;
 }
