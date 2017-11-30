@@ -8,13 +8,17 @@ i gi s´on, respectivament, f(xi) i f'(xi) per alguna determinada funci´o f(x),
 llavors s’anomenen problemes d’interpolaci´o polinomial d’una funci´o.
  */
 /*Funció de prova a interpolar*/
-double fun(x){
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+
+double fun(double x){
     double y;
     y = sin(x);
     return y;
 }
 /*Derivada*/
-double dfun(x){
+double dfun(double x){
     double y;
     y = cos(x);
     return y;
@@ -25,27 +29,28 @@ int main (void){
     printf("Digues m:");
     scanf("%d",&m);
     printf("Digues a i b de l'interval [a,b]: \n");
-    scanf("%e %e", &a, &b);
+    scanf("%le %le", &a, &b);
     /*Agafem m+1 ternes (xi, fi, gi). Quantitat de condicions: 2(m+1) = 2m + 2*/
     M = (double**)malloc((m+1)*sizeof(double*));
     /*Donem valors a les ternes. Utilitzem abscisses equidistants: h = (b-a) / (m+1)-1 = (b-a) / m*/
-    h = (b-a) / m;
-    for(i=0;i++;i<(m+1)){
+    h = (b-a) / (double)m;
+    for(i=0;i<(m+1);i++){
         M[i] = (double*)malloc(3*sizeof(double));
-        M[i][0] = a+i*h;
+        M[i][0] = a + (i*h);
         M[i][1] = fun(M[i][0]);
         M[i][2] = dfun(M[i][0]);
     }
     
     /*Diferències dividides: Cada cop que es divideixi per 0 sustituim per la derivada.*/
-    r = (double*)malloc((2*m)*sizeof(double)); 
+    r = (double*)malloc(((2*m)+1)*sizeof(double)); 
     /*Fem el pas k=1*/
-    for(i=0;i<2*m;i++){
+    for(i=0;i<(2*m)+1;i++){
         if(i%2==0){
             r[i] = M[i/2][2];
         }else{
             r[i] = (M[i/2 + 1][1] - M[i/2][1]) / (M[i/2+1][0] - M[i/2][0]);
         }
+        printf("i=%d  r=%e\n",i, r[i]);
     }
     /*Fem els altres passos: k=2,...,n*/
     return 0;
