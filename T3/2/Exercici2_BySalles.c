@@ -30,7 +30,7 @@ int main(void){
     
     int n, i, j;
     char op;
-    double a, b, prod, coef, x;
+    double a, b, prod, coef, x, sum;
     double *xT, *xE, *fT, *fE;
     
     printf("Entra la dimensio: ");
