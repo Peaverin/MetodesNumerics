@@ -24,7 +24,7 @@ double dfun(double x){
     return y;
 }
 int main (void){
-    int i,m;
+    int i,m,k;
     double **M,a,b,h, *r;
     printf("Digues m:");
     scanf("%d",&m);
@@ -39,9 +39,10 @@ int main (void){
         M[i][0] = a + (i*h);
         M[i][1] = fun(M[i][0]);
         M[i][2] = dfun(M[i][0]);
+        printf("M[%d][0] = %e f = %e df = %e\n",i, M[i][0], M[i][1], M[i][2]);
     }
     
-    /*Diferències dividides: Cada cop que es divideixi per 0 sustituim per la derivada.*/
+    /*Diferències dividides: Cada cop que es divideixi per 0 sustituim per la derivada (pas k=1).*/
     r = (double*)malloc(((2*m)+1)*sizeof(double)); 
     /*Fem el pas k=1*/
     for(i=0;i<(2*m)+1;i++){
@@ -52,6 +53,16 @@ int main (void){
         }
         printf("i=%d  r=%e\n",i, r[i]);
     }
-    /*Fem els altres passos: k=2,...,n*/
+    /*Fem els altres passos: k=2,...,2*m*/
+    /*Mètode diferències dividides:*/
+    for(k=1;k<(2*m)+1;k++){
+        printf("Pas k=%d\n",k);
+        for(i=(2*m);i>=k;i--){
+            r[i] = (r[i] - r[i-1]) / (M[i/2 + i%2][0] - M[(i-k)/2 + (i-k)%2][0]);
+        }
+        printf("\n");
+    }
+    /*El primer element de les diferències dividides es M[0][1]*/
+    
     return 0;
 }
